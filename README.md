@@ -1,16 +1,34 @@
-# React + Vite
+# RightPath – AI Coding Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Problem Statement
+Developers often get stuck while coding and rely on AI tools that directly give answers without explaining the reasoning. This reduces learning and problem-solving ability. There is a need for an intelligent assistant that guides developers by explaining mistakes and suggesting improvements rather than simply providing solutions.
 
-Currently, two official plugins are available:
+## Domain Relevance
+This project falls under the **EdTech / Developer Productivity / AI Assistance** domain. It focuses on improving learning outcomes for developers by encouraging understanding instead of answer copying.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Description
+RightPath is an AI-powered coding companion that helps users while coding by analyzing their queries and providing structured explanations, hints, and guidance. Instead of directly solving problems, the system aims to help users understand *why* something is wrong and how to approach the solution correctly.
 
-## React Compiler
+## High-Level Architecture
+- **Frontend**: React + Vite  
+- **Backend**: Node.js with Express  
+- **AI Integration**: OpenRouter API  
+- **Deployment**: Docker & Docker Compose  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Flow:**
+1. User enters a coding-related query in the frontend  
+2. Frontend sends the request to the backend API  
+3. Backend forwards the prompt to the AI model via OpenRouter  
+4. AI-generated response is returned and displayed to the user  
 
-## Expanding the ESLint configuration
+## Setup and Execution Instructions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Steps to Run the Application
+```bash
+git clone https://github.com/harininr/RightPath.git
+cd RightPath
+docker compose up --build
