@@ -249,12 +249,19 @@ function Editor({ user }) {
   const [aiThinking, setAiThinking] = useState(false);
   const [aiResponse, setAiResponse] = useState('');
   const [testResults, setTestResults] = useState(null);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openrouter_api_key') || '');
+  const [apiKey, setApiKey] = useState('');
   const [question, setQuestion] = useState('');
   const [problemType, setProblemType] = useState('');
   const [isAnalyzingQuestion, setIsAnalyzingQuestion] = useState(false);
   const [pathCheck, setPathCheck] = useState(null);
   
+
+  const requestApiKey = () => {
+  const key = prompt('Enter your OpenRouter API key (not stored)');
+  if (!key) return;
+  setApiKey(key);
+};
+
   // Real-time path checking
   useEffect(() => {
     if (code.length > 50 && question && !aiThinking) {
@@ -410,7 +417,7 @@ function Editor({ user }) {
 
   const getAIGuidance = async () => {
     if (!apiKey) {
-      setAiResponse('🔑 Please add your OpenRouter API key to use AI guidance');
+      setAiResponse('🔒 API key required. Please enter it for this session.');
       return;
     }
     
@@ -495,23 +502,15 @@ function Editor({ user }) {
         
         <div className="header-right">
           <div className="api-status">
-            {apiKey ? (
-              <span className="api-connected">AI Ready</span>
-            ) : (
-              <button 
-                className="api-warning"
-                onClick={() => {
-                  const key = prompt('Enter OpenRouter API key:');
-                  if (key) {
-                    setApiKey(key);
-                    localStorage.setItem('openrouter_api_key', key);
-                  }
-                }}
-              >
-                🔑 Add API Key
-              </button>
-            )}
-          </div>
+  {apiKey ? (
+    <span className="api-connected">🟢 AI Connected (Session Only)</span>
+  ) : (
+    <button className="api-warning" onClick={requestApiKey}>
+      🔑 Enter API Key
+    </button>
+  )}
+</div>
+
           
           <div className="quick-actions">
             {quickActions.map((action, index) => (
