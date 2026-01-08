@@ -1,4 +1,4 @@
-# RightPath – AI Coding Companion
+# RightPath – Coding Companion
 
 ## Problem Statement
 While learning to code, developers often get stuck and turn to AI tools that directly provide complete solutions. This leads to reduced learning, dependency on AI, and weak problem-solving skills. There is a need for a system that assists developers by guiding their thinking process instead of simply generating answers.
