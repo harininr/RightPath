@@ -386,34 +386,62 @@ function Editor({ user }) {
     }
   };
 
-  const handleRunCode = async () => {
-    setIsRunning(true);
-    setOutput('Executing code...\n\n');
-    
-    try {
-      // Simulate execution
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      const mockOutput = `>Code executed successfully!
-> 
-> 📊 Live Analysis:
-> ${pathCheck ? `• Path Confidence: ${pathCheck.confidence}%` : '• No path analysis yet'}
-> • Execution time: 2.3ms
-> • Memory usage: 4.8MB
+  const detectLanguageMismatch = (code, language) => {
+  const patterns = {
+    python: [/def\s+\w+/, /print\(/],
+    java: [/public\s+class\s+\w+/, /System\.out\.println/],
+    javascript: [/console\.log/, /function\s+\w+/],
+    cpp: [/#include\s*<.*>/]
+  };
+
+  // If code clearly matches another language → mismatch
+  return Object.entries(patterns).some(([lang, regexes]) => {
+    if (lang === language) return false;
+    return regexes.some((regex) => regex.test(code));
+  });
+};
+
+
+const handleRunCode = async () => {
+  // 🚨 Language mismatch check
+  if (detectLanguageMismatch(code, language)) {
+    setOutput(
+      `❌ Language Mismatch Error\n\n` +
+      `Selected Language: ${language.toUpperCase()}\n` +
+      `Detected code does not match the selected language.\n\n` +
+      `Please either:\n` +
+      `• Change the selected language\n` +
+      `• Or update the code to match ${language.toUpperCase()}`
+    );
+    return;
+  }
+
+  setIsRunning(true);
+  setOutput('Executing code...\n\n');
+
+  try {
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    const mockOutput = `> Code executed successfully!
 > 
 > 📝 Output:
-> ${code.includes('console.log') ? 'Check browser console' : 'No output generated'}
+> ${language === 'python' && code.includes('print')
+        ? 'Python output detected'
+        : language === 'java' && code.includes('System.out.println')
+        ? 'Java output detected'
+        : 'No output generated'}
 > 
-> ${pathCheck?.isOnRightPath ? '✅ You\'re on the right track!' : '⚠️ Review AI suggestions'}`;
-      
-      setOutput(mockOutput);
-      
-    } catch (error) {
-      setOutput(`❌ Error: ${error.message}`);
-    } finally {
-      setIsRunning(false);
-    }
-  };
+> ✅ Language check passed (${language.toUpperCase()})`;
+
+    setOutput(mockOutput);
+
+  } catch (error) {
+    setOutput(`❌ Error: ${error.message}`);
+  } finally {
+    setIsRunning(false);
+  }
+};
+
 
   const getAIGuidance = async () => {
     if (!apiKey) {
