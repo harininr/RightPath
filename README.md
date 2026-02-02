@@ -27,7 +27,6 @@ The application is designed to support ethical learning and reduce over-reliance
 5. The frontend displays structured guidance to the user  
 
 ## Setup and Execution Instructions
-
 ### Prerequisites
 - Docker  
 - Docker Compose  
